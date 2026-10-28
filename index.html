@@ -1175,17 +1175,16 @@ var EVENTS = [
 ];
 /* Spaces — PLACEHOLDER pricing + availability */
 var PLANS = [
-  {name:'Shared Studio', price:150, unit:'per month', desc:'A dedicated work table in our shared workshop.', items:['Dedicated table + storage shelf','Access during gallery hours','Community critiques + events']},
-  {name:'Private Studio', price:425, unit:'per month', desc:'A lockable private studio with natural light.', items:['Approx. 120 sq ft','Extended access','Studio listed on your artist profile'], feature:true},
+  {name:'Shared Studio', price:150, unit:'per month', desc:'A dedicated work table on our open studio floor.', items:['Your own table in the shared room','Access during gallery hours','Community critiques + events'], feature:true},
   {name:'Wall Space', price:75, unit:'per section / month', desc:'Exhibit and sell your work in the gallery.', items:['Three-month rotating term','Artist profile on our website','Sales handled by the gallery']},
+  {name:'Art Storage Locker', price:25, unit:'per month', desc:'A lockable locker in our storage closet.', items:['Keep supplies + works in progress on site','Access during gallery hours','Add on to any studio or wall-space plan']},
   {name:'Event & Class Rental', price:50, unit:'per hour', desc:'Host a workshop, class or gathering.', items:['After-hours gallery use','Seating for up to 40','Cafe catering available']}
 ];
 var AVAIL = [
-  ['Shared Studio', 'Workshop table', '4 of 10 open', 'ok', 'Available now'],
-  ['Private Studio A', '120 sq ft', '—', 'wait', 'Waitlist'],
-  ['Private Studio B', '140 sq ft', 'Jan 1', 'low', 'Opening soon'],
-  ['Wall Space', '6 sections', 'Next rotation', 'low', 'Applications open'],
-  ['Event & Class Rental', 'Gallery floor', 'Weekday evenings', 'ok', 'Available now']
+  ['Shared Studio', 'Open studio floor', '4 of 10 tables', 'ok', 'Available now'],
+  ['Wall Space', 'Gallery walls', 'Next rotation', 'low', 'Applications open'],
+  ['Art Storage Locker', 'Storage closet', '3 of 12 lockers', 'low', 'Limited'],
+  ['Event & Class Rental', 'Full room', 'Weekday evenings', 'ok', 'Available now']
 ];
 var SOCIAL = [['Facebook','facebook.svg'],['X','x.svg'],['Instagram','instagram.svg'],['Patreon','pantheon.svg']];
 
@@ -1233,7 +1232,7 @@ var R = {
     }).join('');
   },
   avail: function(){
-    return '<thead><tr><th>Space</th><th>Size</th><th>Open</th><th>Status</th></tr></thead><tbody>' +
+    return '<thead><tr><th>Space</th><th>Where</th><th>Open</th><th>Status</th></tr></thead><tbody>' +
       AVAIL.map(function(r){ return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td><span class="pill '+r[3]+'">'+r[4]+'</span></td></tr>'; }).join('') + '</tbody>';
   },
   eventList: function(){
