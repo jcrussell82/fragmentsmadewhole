@@ -644,8 +644,9 @@ form.sent{display:none}
   .mnav-acct{display:block}
 }
 @media (max-width:600px){
-  .logo{width:252px}
-  .header.solid .logo{width:224px}
+  :root{--header-h:86px}
+  .header,.header.solid{height:var(--header-h)}
+  .header .logo,.header.solid .logo{width:min(266px,calc(100vw - 118px))}
   .hl-d{display:none}
   .hl-m{display:block}
 }
