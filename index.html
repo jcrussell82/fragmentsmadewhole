@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="ph-on">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -47,10 +47,6 @@ p{margin:0}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 body.lock{overflow:hidden}
 
-/* ---------- placeholder markers (remove the ph-on class on <html> to hide) ---------- */
-.ph-on [data-ph]{position:relative;outline:1px dashed rgba(181,158,95,.75);outline-offset:8px}
-.ph-on [data-ph]::before{content:"Placeholder";position:absolute;top:-19px;right:-8px;z-index:3;padding:2px 7px;border-radius:3px;background:var(--gold);color:#fff;
-  font:600 10px/1.4 var(--sans);letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
 
 /* ---------- type ---------- */
 .h1{font-size:clamp(46px,7.75vw,150px);color:var(--bone)}
@@ -245,6 +241,18 @@ body.lock{overflow:hidden}
 .pcard__info{display:block;padding:clamp(12px,1.25vw,24px) clamp(14px,1.25vw,24px)}
 .pcard__name{font-weight:600;font-size:clamp(13px,1.02vw,20px);line-height:1.3}
 .pcard__price{color:var(--gold);font-weight:700;font-size:clamp(13px,1.02vw,20px);line-height:1.3}
+.pcard__by{font-size:clamp(12px,.85vw,16px);line-height:1.35;opacity:.7;margin-bottom:.15em}
+.pcard__tag{position:absolute;top:12px;left:12px;z-index:2;padding:.4em .75em;border-radius:3px;background:var(--oxblood);color:var(--bone);font-size:clamp(10px,.68vw,12px);font-weight:600;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
+.pcard.out{display:none}
+#shopChips{margin-top:clamp(36px,3.6vw,64px)}
+#shopGrid{padding-top:clamp(30px,3vw,56px)}
+.pdp__by{margin:-.2em 0 .7em;font-size:1.05em}
+.pdp__by a{color:var(--oxblood);font-weight:600;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;transition:color .3s}
+.pdp__by a:hover{color:var(--gold)}
+.pdp__note{margin-top:.8em;font-size:.8em;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--sage)}
+.pdp__note:empty,.pdp__by:empty{display:none}
+.pdp--art .pdp__gallery img,#qv.is-art #qvImg{object-fit:contain;background:#ddd3c2}
+.one-note{margin-top:8px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--sage)}
 .pcard .add.done{background:var(--sage)}
 
 /* ---------- newsletter + footer ---------- */
@@ -327,7 +335,6 @@ body.lock{overflow:hidden}
 .form .choice b{font-size:.9em}
 .form .choice small{font-size:.8em;opacity:.75}
 .form .choice>span{display:flex;flex-direction:column}
-.form-note{font-size:.8em;opacity:.7;margin-top:14px}
 .form-card{background:var(--card);padding:clamp(26px,3vw,56px);box-shadow:0 30px 60px -34px rgba(51,51,51,.35)}
 .done-msg{display:none;text-align:center;padding:clamp(20px,3vw,50px) 0}
 .done-msg.on{display:block;animation:viewIn .8s var(--ease)}
@@ -894,7 +901,7 @@ form.sent{display:none}
 </div>
 
 <!-- ======================================================================
-     SPACES  (pricing / availability / process are PLACEHOLDER content)
+     SPACES  (pricing / availability / process are sample content)
      ====================================================================== -->
 <div class="view" id="view-spaces" data-view="spaces" data-title="Spaces">
   <section class="chead">
@@ -909,19 +916,19 @@ form.sent{display:none}
     <div class="sec-head">
       <div><p class="eyebrow" data-reveal="up">Spaces &amp; Pricing</p><h2 class="h2" data-reveal="lines">Find your space</h2></div>
     </div>
-    <div class="plans" data-ph data-render="plans"></div>
+    <div class="plans" data-render="plans"></div>
   </section>
 
   <section class="sec" style="background:var(--charcoal);color:var(--bone)" id="availability">
     <div class="wrap">
       <div class="sec-head"><div><p class="eyebrow" data-reveal="up">Availability</p><h2 class="h2" data-reveal="lines">What's open now</h2></div></div>
-      <div data-ph data-reveal="up"><table class="avail" data-render="avail"></table></div>
+      <div data-reveal="up"><table class="avail" data-render="avail"></table></div>
     </div>
   </section>
 
   <section class="sec wrap" id="process">
     <div class="sec-head"><div><p class="eyebrow" data-reveal="up">Application Process</p><h2 class="h2" data-reveal="lines">Clear and simple</h2></div></div>
-    <div class="steps" data-ph>
+    <div class="steps">
       <div class="step" data-reveal="up"><span class="num">01</span><h3>Explore</h3><p>Review the spaces, pricing and current availability to find the fit for your practice.</p></div>
       <div class="step" data-reveal="up" data-delay="120"><span class="num">02</span><h3>Apply</h3><p>Complete the short application below with a few images or a link to your work.</p></div>
       <div class="step" data-reveal="up" data-delay="240"><span class="num">03</span><h3>Meet &amp; Tour</h3><p>We’ll reach out within five business days to set up a conversation and walkthrough.</p></div>
@@ -948,12 +955,11 @@ form.sent{display:none}
         <label class="field full"><span>Tell us about your work <em>*</em></span><textarea name="about" required></textarea></label>
         <label class="choice full"><input type="checkbox" name="values" required><span><b>I’ve read our values</b><small>Hate and sexual violence have no place in the community we are building.</small></span></label>
         <div class="full btn-row" style="margin-top:10px"><button class="btn btn--blood" type="submit">Submit Application</button></div>
-        <p class="form-note full">Front-end demo — connect to a form service before launch.</p>
       </form>
       <div class="done-msg" id="applyDone">
         <div class="check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
         <h2 class="h3">Application received</h2>
-        <p data-ph>Thank you for sharing your work. We’ll be in touch within five business days to set up a conversation and tour.</p>
+        <p>Thank you for sharing your work. We’ll be in touch within five business days to set up a conversation and tour.</p>
         <div class="btn-row"><a class="btn btn--outline-dark" href="#/gallery">Explore the Gallery</a></div>
       </div>
     </div>
@@ -1009,12 +1015,11 @@ form.sent{display:none}
         <label class="field full"><span>Topic</span><select name="topic"><option>Gallery</option><option>Spaces</option><option>Events</option><option>Cafe</option><option>Shop</option></select></label>
         <label class="field full"><span>Message <em>*</em></span><textarea name="message" required></textarea></label>
         <div class="full btn-row" style="margin-top:0"><button class="btn btn--blood" type="submit">Send Message</button></div>
-        <p class="form-note full">Front-end demo — connect to a form service before launch.</p>
       </form>
       <div class="done-msg" id="contactDone">
         <div class="check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
         <h2 class="h3">Message sent</h2>
-        <p data-ph>Thanks for reaching out — we’ll get back to you soon.</p>
+        <p>Thanks for reaching out — we’ll get back to you soon.</p>
       </div>
     </div>
   </section>
@@ -1029,7 +1034,7 @@ form.sent{display:none}
     <h1 class="h2" data-reveal="lines">Our Products</h1>
     <p data-reveal="up" data-delay="150">Artist-made goods, prints, books and more. Every purchase supports our artists and community.</p>
   </section>
-  <section class="wrap"><div class="shop-grid" id="shopGrid"></div></section>
+  <section class="wrap"><div class="chips" id="shopChips"></div><div class="shop-grid" id="shopGrid"></div></section>
 </div>
 
 <div class="view" id="view-product" data-view="product">
@@ -1038,9 +1043,11 @@ form.sent{display:none}
     <div class="pdp__summary">
       <nav class="crumbs"><a href="#/shop">Shop</a><span>/</span><b id="pdpCrumb"></b></nav>
       <h1 id="pdpName"></h1>
+      <p class="pdp__by" id="pdpBy"></p>
       <div class="pdp__price" id="pdpPrice"></div>
+      <p class="pdp__note" id="pdpNote"></p>
       <div class="buy">
-        <div class="qty"><button type="button" data-step="-1" aria-label="Decrease">−</button><input type="number" min="1" value="1" aria-label="Quantity" id="pdpQty"><button type="button" data-step="1" aria-label="Increase">+</button></div>
+        <div class="qty" id="pdpQtyBox"><button type="button" data-step="-1" aria-label="Decrease">−</button><input type="number" min="1" value="1" aria-label="Quantity" id="pdpQty"><button type="button" data-step="1" aria-label="Increase">+</button></div>
         <button class="btn btn--blood" id="pdpAdd">Add to Cart</button>
       </div>
     </div>
@@ -1114,9 +1121,11 @@ form.sent{display:none}
     <img id="qvImg" alt="">
     <div class="modal__body">
       <h2 id="qvName"></h2>
+      <p class="pdp__by" id="qvBy"></p>
       <div class="pdp__price" id="qvPrice"></div>
+      <p class="pdp__note" id="qvNote"></p>
       <div class="buy">
-        <div class="qty"><button type="button" data-step="-1" aria-label="Decrease">−</button><input type="number" min="1" value="1" aria-label="Quantity" id="qvQty"><button type="button" data-step="1" aria-label="Increase">+</button></div>
+        <div class="qty" id="qvQtyBox"><button type="button" data-step="-1" aria-label="Decrease">−</button><input type="number" min="1" value="1" aria-label="Quantity" id="qvQty"><button type="button" data-step="1" aria-label="Increase">+</button></div>
         <button class="btn btn--blood" id="qvAdd">Add to Cart</button>
       </div>
     </div>
@@ -1185,9 +1194,12 @@ var PRODUCTS = [
   {id:'fmw-shirt',           name:'FMW Shirt',           price:24, img:'fragements-made-whole-shirt.png'},
   {id:'still-beating-hat',   name:'Still Beating Hat',   price:24, img:'still-beating-cap.png'},
   {id:'still-beating-shirt', name:'Still Beating Shirt', price:24, img:'still-beating-shirt.png'},
-  {id:'mug',                 name:'Mug',                 price:24, img:'still-beating-mug.png'}
+  {id:'mug',                 name:'Mug',                 price:24, img:'still-beating-mug.png'},
+  /* Sample original artwork — one of a kind (qty capped at 1), credited to the artist */
+  {id:'medusa',        name:'Medusa',        price:480, img:'Karen-Aldrich.jpg', kind:'art', artist:'karen-aldrich'},
+  {id:'marigold-deck', name:'Marigold Deck', price:350, img:'Claybrook-Art.jpg', kind:'art', artist:'claybrook-art'}
 ];
-/* Artist names + images from the mockup. Bios / medium / location are PLACEHOLDERS. */
+/* Artist names + images from the mockup. Bios are sample copy. */
 var ARTISTS = [
   {id:'bailey-strobel',   name:'Bailey Strobel',   img:'Bailey-Strobel.jpg'},
   {id:'claybrook-art',    name:'Claybrook Art',    img:'Claybrook-Art.jpg'},
@@ -1195,30 +1207,33 @@ var ARTISTS = [
   {id:'karen-aldrich',    name:'Karen Aldrich',    img:'Karen-Aldrich.jpg'},
   {id:'slug-boy-designs', name:'Slug Boy Designs', img:'Slug-Boy-Designs.jpg'}
 ];
-var ARTIST_PH = {
-  bio:['Artist biography to come. Final artist biographies, artwork information and pricing will be supplied or approved by the gallery.',
-       'This space can hold a short statement about the artist’s practice, the materials they work with and what draws them to the work currently on our walls.'],
-  medium:'To be confirmed', based:'To be confirmed', availability:'Inquire with the gallery'
-};
-/* Title / subtitle / date / time from the mockup. type, cost, capacity and descriptions are PLACEHOLDERS. */
+function artistBio(a){
+  if (a.id === 'karen-aldrich') return [
+    'Karen Aldrich is the founder of Fragments Made Whole Gallery and Still Beating Café.',
+    'Having faced significant adversity in her own life, Karen believes our difficult experiences do not need to be hidden. They can become part of how we grow, reconnect and build something meaningful.'];
+  return [
+    a.name + ' is one of the artists currently showing at Fragments Made Whole, bringing honest, distinctive work to our walls.',
+    'Visit during gallery hours to see the work in person, or get in touch to ask about pricing, availability and commissions.'];
+}
+/* Titles / subtitles / times from the mockup; dates, cost, capacity and descriptions are sample content. */
 var EVENTS = [
-  {id:'opening-reception', title:'Opening Reception', sub:'New Voices, New Work', m:'Oct', n:'12', d:'Sat', time:'6:00 PM - 9:00PM', img:'opening-reception.png',
+  {id:'opening-reception', title:'Opening Reception', sub:'New Voices, New Work', m:'Nov', n:'7', d:'Sat', time:'6:00 PM - 9:00PM', img:'opening-reception.png',
    type:'Receptions', price:0, cap:'Open to the public',
    body:['Join us as we open our newest exhibition and celebrate the artists behind it. Meet the makers, see the work up close and spend the evening with a community that shows up for each other.',
          'Light refreshments from Still Beating will be served. All are welcome — registration simply helps us plan.'],
    expect:['Walk-through of the new exhibition','Artists on hand to talk about their work','Refreshments from Still Beating']},
-  {id:'artist-talk', title:'Artist Talk', sub:'Process, Place & Possibility', m:'Oct', n:'19', d:'Sat', time:'6:00 PM - 9:00PM', img:'artist-talk.png',
+  {id:'artist-talk', title:'Artist Talk', sub:'Process, Place & Possibility', m:'Nov', n:'14', d:'Sat', time:'6:00 PM - 9:00PM', img:'artist-talk.png',
    type:'Talks', price:0, cap:'Limited seating',
    body:['An evening conversation about how place shapes process — and how making work can open new possibilities for the artist and the community around them.',
          'The talk is followed by an open Q&A and time to explore the gallery.'],
    expect:['Moderated conversation with a featured artist','Open audience Q&A','Gallery open after the talk']},
-  {id:'creative-class', title:'Creative Class', sub:'Hand-Building with Intention', m:'Oct', n:'26', d:'Sat', time:'6:00 PM - 9:00PM', img:'creative-class.png',
+  {id:'creative-class', title:'Creative Class', sub:'Hand-Building with Intention', m:'Nov', n:'21', d:'Sat', time:'6:00 PM - 9:00PM', img:'creative-class.png',
    type:'Classes', price:45, cap:'12 participants',
    body:['A beginner-friendly clay workshop focused on slowing down and building by hand. You’ll learn pinch, coil and slab techniques and leave with a piece of your own.',
          'All materials are included. Wear clothes that can get a little messy.'],
    expect:['All clay, tools and glazing included','No experience necessary','Pieces fired and ready for pickup in two weeks']}
 ];
-/* Spaces — PLACEHOLDER pricing + availability */
+/* Spaces — sample pricing + availability */
 var PLANS = [
   {name:'Shared Studio', price:150, unit:'per month', desc:'A dedicated work table on our open studio floor.', items:['Your own table in the shared room','Access during gallery hours','Community critiques + events'], feature:true},
   {name:'Wall Space', price:75, unit:'per section / month', desc:'Exhibit and sell your work in the gallery.', items:['Three-month rotating term','Artist profile on our website','Sales handled by the gallery']},
@@ -1254,13 +1269,16 @@ function eventCard(e, i){
 var BAG = '<svg viewBox="0 0 24 24"><path d="M5 7.5h14l-1.1 13H6.1z"/><path d="M8.8 10V6.3a3.2 3.2 0 0 1 6.4 0V10"/></svg>';
 var EYE = '<svg viewBox="0 0 24 24"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
 function card(p, i){
-  return '<article class="pcard" data-reveal="up" data-delay="'+(i*90)+'">' +
-    '<div class="pcard__media"><a href="#/product/'+p.id+'"><img data-img="'+p.img+'" alt="'+esc(p.name)+'" draggable="false"></a>' +
+  var art = p.kind === 'art', a = art && artistById[p.artist];
+  return '<article class="pcard" data-kind="'+(art?'art':'merch')+'" data-reveal="up" data-delay="'+(i*90)+'">' +
+    '<div class="pcard__media">'+(art?'<span class="pcard__tag">Original</span>':'')+'<a href="#/product/'+p.id+'"><img data-img="'+p.img+'" alt="'+esc(p.name)+'" draggable="false"></a>' +
     '<div class="pcard__bar"><button class="add" data-add="'+p.id+'">'+BAG+'<span>Add to Cart</span></button>' +
     '<button class="qv" data-qv="'+p.id+'" aria-label="Quick View">'+EYE+'<span>Quick View</span></button></div></div>' +
-    '<a class="pcard__info" href="#/product/'+p.id+'"><div class="pcard__name">'+esc(p.name)+'</div><div class="pcard__price">'+money(p.price)+'</div></a>' +
+    '<a class="pcard__info" href="#/product/'+p.id+'"><div class="pcard__name">'+esc(p.name)+'</div>' +
+    (a ? '<div class="pcard__by">'+esc(a.name)+'</div>' : '') + '<div class="pcard__price">'+money(p.price)+'</div></a>' +
   '</article>';
 }
+function isArt(p){ return p.kind === 'art'; }
 function cost(e){ return e.price ? money(e.price) + ' per person' : 'Free'; }
 
 var R = {
@@ -1296,7 +1314,10 @@ function renderStatic(){
   $('#chips').innerHTML = chips.map(function(c, i){ return '<button class="chip'+(i?'':' on')+'" data-chip="'+c+'">'+c+'</button>'; }).join('');
   $('#apSpace').innerHTML += PLANS.map(function(p){ return '<option>'+esc(p.name)+'</option>'; }).join('');
   $('#prodTrack').innerHTML = PRODUCTS.map(card).join('');
-  $('#shopGrid').innerHTML = PRODUCTS.map(card).join('');
+  /* shop: original artwork first, then merchandise, with a filter */
+  $('#shopGrid').innerHTML = PRODUCTS.filter(isArt).concat(PRODUCTS.filter(function(p){ return !isArt(p); })).map(card).join('');
+  $('#shopChips').innerHTML = [['all','All'],['art','Original Artwork'],['merch','Merchandise']].map(function(c, i){
+    return '<button class="chip'+(i?'':' on')+'" data-shopchip="'+c[0]+'">'+c[1]+'</button>'; }).join('');
 }
 
 function renderArtist(id){
@@ -1306,9 +1327,15 @@ function renderArtist(id){
     '<div><nav class="crumbs" data-reveal="up"><a href="#/gallery">Gallery</a><span>/</span><b>'+esc(a.name)+'</b></nav>' +
     '<h1 data-reveal="lines">'+esc(a.name)+'</h1>' +
     '<p class="eyebrow" data-reveal="up">Featured Work</p>' +
-    '<div class="bio" data-ph data-reveal="up" data-delay="150">'+ARTIST_PH.bio.map(function(p){ return '<p>'+esc(p)+'</p>'; }).join('')+'</div>' +
-    '<dl class="facts" data-ph data-reveal="up" data-delay="250"><dt>Medium</dt><dd>'+ARTIST_PH.medium+'</dd><dt>Based in</dt><dd>'+ARTIST_PH.based+'</dd><dt>Availability</dt><dd>'+ARTIST_PH.availability+'</dd></dl>' +
-    '<div class="btn-row" data-reveal="up" data-delay="300"><a class="btn btn--blood" href="#/contact">Contact</a><a class="btn btn--outline-dark" href="#/gallery">View the Gallery</a></div></div>';
+    '<div class="bio" data-reveal="up" data-delay="150">'+artistBio(a).map(function(p){ return '<p>'+esc(p)+'</p>'; }).join('')+'</div>' +
+    (function(){
+      var w = PRODUCTS.filter(function(p){ return p.artist === a.id; })[0];
+      return '<dl class="facts" data-reveal="up" data-delay="250"><dt>Showing</dt><dd>Currently on the walls</dd><dt>Where</dt><dd>Fragments Made Whole, Saint Paul</dd>' +
+        '<dt>Availability</dt><dd>'+(w ? 'Original work available in our shop' : 'Inquire with the gallery')+'</dd></dl>' +
+        '<div class="btn-row" data-reveal="up" data-delay="300">' +
+        (w ? '<a class="btn btn--blood" href="#/product/'+w.id+'">Shop This Work</a><a class="btn btn--outline-dark" href="#/contact">Contact</a>'
+           : '<a class="btn btn--blood" href="#/contact">Contact</a><a class="btn btn--outline-dark" href="#/gallery">View the Gallery</a>') + '</div></div>';
+    })();
   $('[data-render="artistTrackOthers"]').innerHTML = ARTISTS.filter(function(x){ return x.id !== a.id; }).map(artCard).join('');
   return a.name;
 }
@@ -1322,11 +1349,11 @@ function renderEvent(id){
       '<p data-reveal="up" data-delay="400" data-hero>'+esc(e.sub)+'</p></div></section>' +
     '<section class="sec wrap edetail"><div class="body">' +
       '<nav class="crumbs" data-reveal="up" style="margin-bottom:2em"><a href="#/events">Events</a><span>/</span><b>'+esc(e.title)+'</b></nav>' +
-      '<div data-ph data-reveal="up">'+e.body.map(function(p,i){ return '<p'+(i?'':' class="statement"')+'>'+esc(p)+'</p>'; }).join('') +
+      '<div data-reveal="up">'+e.body.map(function(p,i){ return '<p'+(i?'':' class="statement"')+'>'+esc(p)+'</p>'; }).join('') +
       '<h2>What to expect</h2><ul>'+e.expect.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join('')+'</ul></div></div>' +
       '<aside class="infocard" data-reveal="up" data-delay="150">'+dateBlock(e) +
         '<dl><dt>Time</dt><dd>'+e.time+'</dd><dt>Where</dt><dd>Fragments Made Whole<br>755 Prior Street<br>Saint Paul, MN 55555</dd>' +
-        '<dt>Cost</dt><dd data-ph>'+cost(e)+'</dd><dt>Capacity</dt><dd data-ph>'+esc(e.cap)+'</dd></dl>' +
+        '<dt>Cost</dt><dd>'+cost(e)+'</dd><dt>Capacity</dt><dd>'+esc(e.cap)+'</dd></dl>' +
         '<a class="btn btn--blood" href="#/register/'+e.id+'">Register</a></aside></section>';
   $('[data-render="eventTrackOthers"]').innerHTML = EVENTS.filter(function(x){ return x.id !== e.id; }).map(eventCard).join('');
   return e.title;
@@ -1348,7 +1375,6 @@ function renderRegister(id){
       '<label class="field full"><span>Accessibility needs or questions</span><textarea name="notes" style="min-height:110px"></textarea></label>' +
       '<label class="choice full"><input type="checkbox" name="news" checked><span><b>Events + Gallery News</b><small>Openings, talks and more</small></span></label>' +
       '<div class="full btn-row" style="margin-top:10px"><button class="btn btn--blood" type="submit">Complete Registration</button></div>' +
-      '<p class="form-note full">Front-end demo — connect to a registration or ticketing service before launch.</p>' +
     '</form>' +
     '<div class="done-msg" id="regDone"><div class="check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>' +
       '<h2 class="h3">You’re registered</h2><div class="conf" id="regConf"></div>' +
@@ -1357,7 +1383,7 @@ function renderRegister(id){
     '<aside class="infocard" data-reveal="up" data-delay="250"><div class="reveal-img" data-reveal><img data-img="'+e.img+'" alt=""></div>' +
       '<h2>'+esc(e.title)+'</h2><p>'+esc(e.sub)+'</p>' +
       '<dl style="margin-top:1.4em"><dt>Date</dt><dd>'+e.d+', '+e.m+' '+e.n+'</dd><dt>Time</dt><dd>'+e.time+'</dd><dt>Where</dt><dd>755 Prior Street<br>Saint Paul, MN 55555</dd></dl>' +
-      '<div class="total" data-ph><span>Total</span><b id="regTotal">'+(e.price ? money(e.price) : 'Free')+'</b></div></aside>';
+      '<div class="total"><span>Total</span><b id="regTotal">'+(e.price ? money(e.price) : 'Free')+'</b></div></aside>';
   var q = $('#regQty');
   q.addEventListener('change', function(){ $('#regTotal').textContent = e.price ? money(e.price * q.value) : 'Free'; });
   wireForm($('#regForm'), $('#regDone'), function(){ $('#regConf').textContent = 'Confirmation FMW-' + Math.random().toString(36).slice(2,7).toUpperCase(); });
@@ -1397,8 +1423,10 @@ function renderCart(bump){
     var p = byId[l.id];
     return '<div class="line" style="animation-delay:'+(i*70)+'ms">' +
       '<a href="#/product/'+p.id+'"><img data-img="'+p.img+'" alt=""></a>' +
-      '<div><h3>'+esc(p.name)+'</h3><div class="pcard__price">'+money(p.price)+'</div>' +
-      '<div class="qty" data-line="'+p.id+'"><button type="button" data-step="-1" aria-label="Decrease">−</button><input type="number" min="1" value="'+l.qty+'" aria-label="Quantity"><button type="button" data-step="1" aria-label="Increase">+</button></div></div>' +
+      '<div><h3>'+esc(p.name)+'</h3>' + (isArt(p) ? '<div class="pcard__by">'+esc(artistById[p.artist].name)+'</div>' : '') +
+      '<div class="pcard__price">'+money(p.price)+'</div>' +
+      (isArt(p) ? '<div class="one-note">Original · One of a kind</div>'
+        : '<div class="qty" data-line="'+p.id+'"><button type="button" data-step="-1" aria-label="Decrease">−</button><input type="number" min="1" value="'+l.qty+'" aria-label="Quantity"><button type="button" data-step="1" aria-label="Increase">+</button></div>') + '</div>' +
       '<button class="rm x" data-rm="'+p.id+'" aria-label="Remove"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>' +
     '</div>';
   }).join('');
@@ -1408,7 +1436,8 @@ function renderCart(bump){
 function add(id, qty){
   qty = Math.max(1, parseInt(qty,10) || 1);
   var l = cart.filter(function(x){ return x.id === id; })[0];
-  if (l) l.qty += qty; else cart.push({id:id, qty:qty});
+  if (isArt(byId[id])){ if (!l) cart.push({id:id, qty:1}); }   /* originals: one of a kind */
+  else if (l) l.qty += qty; else cart.push({id:id, qty:qty});
   save(); renderCart(true); openPanel('drawer');
 }
 function setQty(id, qty){
@@ -1445,6 +1474,8 @@ function quickView(id){
   $('#qvImg').src = IMG[p.img]; $('#qvImg').alt = p.name;
   $('#qvName').textContent = p.name; $('#qvPrice').textContent = money(p.price);
   $('#qvQty').value = 1; $('#qvAdd').dataset.id = id;
+  byLine($('#qvBy'), $('#qvNote'), $('#qvQtyBox'), p);
+  $('#qv').classList.toggle('is-art', isArt(p));
   openPanel('qv');
 }
 $('#qvAdd').addEventListener('click', function(){ add(this.dataset.id, $('#qvQty').value); });
@@ -1459,6 +1490,11 @@ document.addEventListener('click', function(e){
   if ((t = e.target.closest('[data-rm]'))){ setQty(t.dataset.rm, 0); return; }
   if ((t = e.target.closest('[data-close]'))){ closePanel(); return; }
   if ((t = e.target.closest('[data-space]'))){ pendingSpace = t.dataset.space; }
+  if ((t = e.target.closest('[data-shopchip]'))){
+    $$('#shopChips .chip').forEach(function(c){ c.classList.toggle('on', c === t); });
+    $$('#shopGrid .pcard').forEach(function(c){ var hide = t.dataset.shopchip !== 'all' && c.dataset.kind !== t.dataset.shopchip; c.classList.toggle('out', hide); if (!hide) c.classList.add('in'); });
+    return;
+  }
   if ((t = e.target.closest('[data-chip]'))){
     $$('.chip').forEach(function(c){ c.classList.toggle('on', c === t); });
     $$('.erow').forEach(function(r){ var hide = t.dataset.chip !== 'All' && r.dataset.type !== t.dataset.chip; r.classList.toggle('out', hide); if (!hide) r.classList.add('in'); });
@@ -1481,8 +1517,18 @@ function showProduct(id){
   $('#pdpName').textContent = p.name; $('#pdpCrumb').textContent = p.name;
   $('#pdpPrice').textContent = money(p.price); $('#pdpQty').value = 1;
   $('#pdpAdd').dataset.id = p.id;
-  $('#relatedGrid').innerHTML = PRODUCTS.filter(function(x){ return x.id !== p.id; }).slice(0,4).map(card).join('');
+  byLine($('#pdpBy'), $('#pdpNote'), $('#pdpQtyBox'), p);
+  $('#view-product .pdp').classList.toggle('pdp--art', isArt(p));
+  var others = PRODUCTS.filter(function(x){ return x.id !== p.id; });
+  others.sort(function(x, y){ return (isArt(y) === isArt(p)) - (isArt(x) === isArt(p)); });
+  $('#relatedGrid').innerHTML = others.slice(0,4).map(card).join('');
   return p.name;
+}
+function byLine(by, note, qtyBox, p){
+  var a = isArt(p) && artistById[p.artist];
+  by.innerHTML = a ? 'by <a href="#/artist/'+a.id+'">'+esc(a.name)+'</a>' : '';
+  note.textContent = isArt(p) ? 'Original artwork · One of a kind' : '';
+  qtyBox.style.display = isArt(p) ? 'none' : '';
 }
 $('#pdpAdd').addEventListener('click', function(){ add(this.dataset.id, $('#pdpQty').value); });
 var gal = $('#pdpGallery');
