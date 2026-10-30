@@ -33,10 +33,12 @@
   --ease-in-out:cubic-bezier(.65,0,.35,1);
   --header-h:clamp(72px,7.2vw,116px);
   --sec:clamp(70px,7vw,136px);
+  --fs:clamp(15px,1.17vw,22px);
+  --ctl-h:calc(var(--fs) * 3.1);   /* height of the email field — every .btn matches it */
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bone);color:var(--charcoal);font-family:var(--sans);font-size:clamp(15px,1.17vw,22px);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;background:var(--bone);color:var(--charcoal);font-family:var(--sans);font-size:var(--fs);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 main{overflow-x:clip}
 img,video{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
@@ -53,12 +55,12 @@ body.lock{overflow:hidden}
 .h2{font-size:clamp(32px,3.7vw,71px)}
 .h3{font-size:clamp(22px,1.95vw,38px)}
 .eyebrow{display:flex;align-items:center;gap:.55em;font-family:var(--sans);text-transform:uppercase;font-size:clamp(13px,1.17vw,22px);letter-spacing:.04em;color:var(--gold);margin-bottom:.35em;font-weight:400}
-.eyebrow::before{content:"";width:1.4em;height:1px;background:currentColor}
+.eyebrow::before{content:"";width:1.4em;height:1px;background:currentColor;display:none}   /* line hidden — delete display:none to bring it back */
 .lede{max-width:31em;margin-top:1.3em}
 .statement{font-family:var(--serif);font-size:clamp(24px,2.45vw,47px);line-height:1.3;font-weight:400}
 
 /* ---------- buttons (Salient-style fill sweep) ---------- */
-.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;isolation:isolate;
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;isolation:isolate;min-height:var(--ctl-h);
   padding:.85em 1.25em;border-radius:4px;font-family:var(--sans);font-weight:500;text-transform:uppercase;letter-spacing:.03em;
   font-size:clamp(12px,1.02vw,19px);line-height:1;transition:color .45s var(--ease),border-color .45s var(--ease),transform .45s var(--ease)}
 .btn::before{content:"";position:absolute;inset:0;z-index:-1;transform:scaleX(0);transform-origin:right;transition:transform .6s var(--ease)}
@@ -303,12 +305,12 @@ body.lock{overflow:hidden}
 .pdp__summary h1{font-size:clamp(34px,3.7vw,71px);margin:.35em 0 .3em}
 .pdp__price{color:var(--gold);font-weight:700;font-size:clamp(20px,1.6vw,30px)}
 .buy{display:flex;gap:14px;margin-top:clamp(26px,2.6vw,50px);flex-wrap:wrap}
-.qty{display:inline-grid;grid-template-columns:44px 52px 44px;border:1.5px solid rgba(51,51,51,.3);border-radius:4px;height:52px}
+.qty{display:inline-grid;grid-template-columns:44px 52px 44px;border:1.5px solid rgba(51,51,51,.3);border-radius:4px;height:var(--ctl-h)}
 .qty button{font-size:20px;transition:color .3s}
 .qty button:hover{color:var(--gold)}
 .qty input{width:100%;border:0;background:none;text-align:center;font:inherit;font-weight:600;-moz-appearance:textfield}
 .qty input::-webkit-inner-spin-button{-webkit-appearance:none}
-.buy .btn{height:52px;flex:1;min-width:200px}
+.buy .btn{flex:1;min-width:200px}
 .related{padding-bottom:clamp(70px,6.6vw,128px)}
 .related .h2{text-align:center;margin-bottom:clamp(30px,3vw,56px)}
 .related .shop-grid{padding-top:0}
@@ -324,12 +326,14 @@ body.lock{overflow:hidden}
 .field{display:block;margin-bottom:20px}
 .field>span{display:block;font-size:.78em;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5em}
 .field>span em{font-style:normal;color:var(--gold)}
-.field input,.field select,.field textarea{width:100%;border:1.5px solid rgba(51,51,51,.22);border-radius:4px;padding:.8em 1em;font:inherit;font-size:.95em;color:var(--charcoal);background:#fff;transition:border-color .3s,box-shadow .3s}
+.field input[type=month],.field input[type=date]{-webkit-appearance:none;appearance:none;display:block;min-height:3.1em}
+.field input::-webkit-date-and-time-value{text-align:left}
+.field input,.field select,.field textarea{width:100%;min-width:0;max-width:100%;border:1.5px solid rgba(51,51,51,.22);border-radius:4px;padding:.8em 1em;font:inherit;font-size:.95em;color:var(--charcoal);background:#fff;transition:border-color .3s,box-shadow .3s}
 .field textarea{min-height:150px;resize:vertical}
 .field select{appearance:none;-webkit-appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23333' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 1em center;padding-right:2.6em}
 .field input:focus,.field select:focus,.field textarea:focus{outline:0;border-color:var(--gold);box-shadow:0 0 0 3px rgba(181,158,95,.18)}
 .field input:user-invalid,.field select:user-invalid,.field textarea:user-invalid{border-color:var(--oxblood)}
-.form{display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(16px,1.6vw,28px)}
+.form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(16px,1.6vw,28px)}
 .form .full{grid-column:1/-1}
 .form .choice{color:var(--charcoal);margin-bottom:14px}
 .form .choice b{font-size:.9em}
@@ -519,7 +523,7 @@ form.sent{display:none}
 .info .social a{height:clamp(26px,2vw,36px)}
 .info .social img{filter:brightness(0) saturate(100%) invert(19%)}
 .band{position:relative;height:clamp(260px,32vw,560px);overflow:hidden}
-.band .reveal-img{position:absolute;inset:-12% 0}
+.band .reveal-img{position:absolute;inset:-22% 0}   /* 22% spare above + below; parallax travel is capped to it */
 
 /* ==========================================================
    CART DRAWER + QUICK VIEW + MOBILE NAV
@@ -621,8 +625,13 @@ form.sent{display:none}
   .cafe__heart{left:auto;right:-40px;top:20%}
   .prod-track{grid-auto-columns:calc((100% - 12px)/2)}
   .shop-grid,.agrid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .footer{grid-template-columns:1fr 1fr}
+  .footer{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:20px;row-gap:28px}
   .footer>div:first-child{grid-column:1/-1}
+  .footer .connect{grid-column:1/-1;justify-self:center;padding-top:8px}
+  .footer .connect h4{display:none}
+  .footer .social{gap:34px}
+  .footer .social a{height:30px}
+  .hours{column-gap:16px}
   .pdp__summary{position:static}
   .modal__box>img{min-height:0;aspect-ratio:1/1}
   .pcard__bar{transform:none}
@@ -634,9 +643,8 @@ form.sent{display:none}
   .avail th:nth-child(2),.avail td:nth-child(2){display:none}
 }
 @media (max-width:520px){
-  .choices,.subscribe,.form{grid-template-columns:1fr}
-  .footer{grid-template-columns:1fr}
-  .hours{column-gap:30px}
+  .choices,.subscribe,.form{grid-template-columns:minmax(0,1fr)}
+  .hours{column-gap:12px}
   .arrows{position:static;justify-content:center;gap:16px;margin-top:20px}
   .pcard__bar button span{display:none}
   .pcard__bar{grid-template-columns:1fr 1fr}
@@ -1023,7 +1031,7 @@ form.sent{display:none}
       </div>
     </div>
   </section>
-  <section class="band"><div class="reveal-img" data-reveal data-parallax><img data-img="still-beating-cafe.png" alt=""></div></section>
+  <section class="band"><div class="reveal-img" data-reveal data-parallax="band"><img data-img="still-beating-cafe.png" alt=""></div></section>
 </div>
 
 <!-- ======================================================================
@@ -1095,7 +1103,7 @@ form.sent{display:none}
     <div><a class="logo" href="#top"><img data-img="logo.svg" alt="Fragments Made Whole — Gallery • Art • Community"></a></div>
     <div><h4>Visit Us</h4><p>755 Prior Street<br>Saint Paul, MN 55555</p></div>
     <div><h4>Hours</h4><dl class="hours"><dt>Mon - Fri</dt><dd>11AM - 5PM</dd><dt>Sat - Sun</dt><dd>8AM - 6PM</dd></dl></div>
-    <div><h4>Connect</h4><div class="social" data-render="social"></div></div>
+    <div class="connect"><h4>Connect</h4><div class="social" data-render="social"></div></div>
   </footer>
 </section>
 </main>
@@ -1607,15 +1615,22 @@ function reveal(el){
   setTimeout(function(){ el.style.transitionDelay = ''; $$('img', el).forEach(function(i){ i.style.transitionDelay = ''; }); }, 2600 + (+el.dataset.delay||0));
 }
 var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(entries){
-  entries.forEach(function(en){ if (en.isIntersecting){ io.unobserve(en.target); reveal(en.target); } });
+  entries.forEach(function(en){
+    if (!en.isIntersecting) return;
+    io.unobserve(en.target);
+    /* a sliding row reveals all its cards together (staggered) — cards clipped by the row never report on their own */
+    if (en.target.classList.contains('track')) $$('[data-reveal]:not(.in)', en.target).forEach(reveal);
+    else reveal(en.target);
+  });
 }, {rootMargin:'0px 0px -8% 0px', threshold:.1}) : null;
 function observe(root){
   splitLines(root);
   $$('[data-reveal]:not(.in)', root).forEach(function(el){
     if (el.hasAttribute('data-hero')) return;
+    var tr = el.closest('.track');
+    if (tr){ if (io) io.observe(tr); else el.classList.add('in'); return; }
     if (io) io.observe(el); else el.classList.add('in');
   });
-  /* steps get a connector line once revealed */
 }
 function heroIn(root){
   setTimeout(function(){ $$('[data-hero]:not(.in)', root).forEach(reveal); }, 150);
@@ -1689,7 +1704,14 @@ function onScroll(){
   lastY = y;
   $$('[data-parallax]', v).forEach(function(el){
     var r = el.parentNode.getBoundingClientRect();
-    if (r.bottom > 0 && r.top < innerHeight) el.style.transform = 'translate3d(0,' + (-r.top * .28).toFixed(1) + 'px,0)';
+    if (r.bottom <= 0 || r.top >= innerHeight) return;
+    var t;
+    if (el.dataset.parallax === 'band'){
+      /* mid-page band: -1 (entering at bottom) … +1 (leaving at top), travel limited to the spare 22% so no gap shows */
+      var p = Math.max(-1, Math.min(1, (r.top + r.height/2 - innerHeight/2) / (innerHeight/2 + r.height/2)));
+      t = p * r.height * .2;
+    } else t = -r.top * .28;   /* page heroes: start at the top of the page */
+    el.style.transform = 'translate3d(0,' + t.toFixed(1) + 'px,0)';
   });
   if (view === 'home'){
     var r = heart.parentNode.getBoundingClientRect();
