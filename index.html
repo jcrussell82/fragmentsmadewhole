@@ -74,13 +74,13 @@ body.lock{overflow:hidden}
 .btn--bone{background:var(--bone);color:var(--charcoal);font-weight:600}
 .btn--bone::before{background:var(--gold)}
 .btn--bone:hover{color:var(--bone)}
-.btn--outline-gold{border:1.5px solid var(--gold);color:var(--gold)}
+.btn--outline-gold{box-shadow:inset 0 0 0 1.5px var(--gold);color:var(--gold)}
 .btn--outline-gold::before{background:var(--gold)}
 .btn--outline-gold:hover{color:var(--charcoal)}
-.btn--outline-bone{border:1.5px solid var(--bone);color:var(--bone)}
+.btn--outline-bone{box-shadow:inset 0 0 0 1.5px var(--bone);color:var(--bone)}
 .btn--outline-bone::before{background:var(--bone)}
 .btn--outline-bone:hover{color:var(--oxblood)}
-.btn--outline-dark{border:1.5px solid var(--charcoal);color:var(--charcoal)}
+.btn--outline-dark{box-shadow:inset 0 0 0 1.5px var(--charcoal);color:var(--charcoal)}   /* ring instead of border: even on every side on phones */
 .btn--outline-dark::before{background:var(--charcoal)}
 .btn--outline-dark:hover{color:var(--bone)}
 .btn-row{display:flex;flex-wrap:wrap;gap:clamp(12px,1.25vw,24px);margin-top:clamp(24px,2.3vw,44px)}
@@ -838,7 +838,7 @@ body.menu-open .menu__info{opacity:1;transform:none}
   .menu__info{align-self:start;grid-template-columns:1fr}
   .cafe2{grid-template-columns:1fr;padding:clamp(60px,9vw,100px) 0}
   .cafe2__img{padding-right:var(--gutter)}
-  .cafe2__panel{left:var(--gutter);right:0;top:40%;bottom:clamp(30px,6vw,60px)}
+  .cafe2__panel{left:var(--gutter);right:0;top:40%;bottom:0}   /* heart runs to the section's bottom edge (no gap) */
   .cafe2__txt{padding:0 var(--gutter) 40px calc(var(--gutter) + 22px)}
   .cafe2__title{margin:-.6em 0 .3em 0;font-size:clamp(56px,16vw,110px)}
   .cafe2__heart{width:86vw;right:-22%}
@@ -905,6 +905,8 @@ body.menu-fixed .tearcv{display:block}
   background-size:100% 100%;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
 .blobfig--karen .blob img{object-position:50% 30%}   /* keep her face in the blob */
 /* banner opacity follows scroll position (see heroFade) */
+.hero video{pointer-events:none}
+.hero video::-webkit-media-controls,.hero video::-webkit-media-controls-start-playback-button,.hero video::-webkit-media-controls-overlay-play-button{display:none !important;-webkit-appearance:none;opacity:0}
 /* tighter spacing: statement → Our Mission, and Events → Still Beating */
 .statement.wrap#statement{padding-top:clamp(56px,10vw,200px);padding-bottom:clamp(30px,3.5vw,70px)}
 #about.split2{padding-top:clamp(20px,2.5vw,50px)}
@@ -2254,26 +2256,19 @@ var TRAIL = ['Bailey-Strobel.jpg','find-your-voice.png','Claybrook-Art.jpg','ope
      (returning from another page, the menu closing), which used to spawn images */
   var mx = null, my = null;
   hero.addEventListener('pointermove', function(e){
+    if (e.pointerType === 'touch') return;                 /* touch is handled below */
     if (e.clientX === mx && e.clientY === my) return;
     var first = mx === null; mx = e.clientX; my = e.clientY;
     if (first || menuFixed || performance.now() < quietUntil) return;
     lastMove = performance.now(); var p = local(e); move(p[0], p[1]);
   });
   window.addEventListener('hashchange', function(){ quietUntil = performance.now() + 600; mx = my = null; last = null; px = py = null; });
-  hero.addEventListener('touchmove', function(e){ lastMove = performance.now(); var t = e.touches[0], r = hero.getBoundingClientRect(); move(t.clientX - r.left, t.clientY - r.top); }, {passive:true});
+  /* phones/tablets: like Signal, the images follow your finger — a touch drops one under it, dragging leaves a trail.
+     Nothing appears on its own. */
+  function touchAt(e){ var t = e.touches[0], r = hero.getBoundingClientRect(); return [t.clientX - r.left, t.clientY - r.top]; }
+  hero.addEventListener('touchstart', function(e){ if (menuFixed) return; last = null; px = py = null; var p = touchAt(e); move(p[0], p[1]); }, {passive:true});
+  hero.addEventListener('touchmove', function(e){ if (menuFixed) return; var p = touchAt(e); move(p[0], p[1]); }, {passive:true});
   hero.addEventListener('pointerleave', function(){ last = null; px = py = null; });
-  /* phones/tablets only (no cursor): a gentle automatic trail drifts across the banner. On desktop images only appear when the cursor moves. */
-  if (!matchMedia('(hover: none)').matches) return;
-  function idle(t){
-    autoRAF = requestAnimationFrame(idle);
-    if (view !== 'home' || menuFixed || document.hidden) return;
-    var r = hero.getBoundingClientRect(); if (r.bottom < 0) return;
-    if (performance.now() - lastMove < 2200) return;
-    auto += 0.011;
-    var cx = r.width / 2, cy = r.height / 2;
-    move(cx + Math.sin(auto * 1.1) * r.width * .36, cy + Math.sin(auto * 2.3 + 1) * r.height * .26);
-  }
-  autoRAF = requestAnimationFrame(idle);
 })();
 
 /* ---------------- WALLS: slow continuous slide, pauses on hover, drag / swipe to scrub ---------------- */
